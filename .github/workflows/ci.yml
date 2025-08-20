@@ -40,12 +40,17 @@ jobs:
       - name: Install browsers and dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y wget xvfb libgtk-3-0 libdbus-glib-1-2
+          sudo apt-get install -y wget xvfb libgtk-3-0 libdbus-glib-1-2 libasound2
+
           # Install Chrome
           wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
           sudo apt install -y ./google-chrome-stable_current_amd64.deb
-          # Install Firefox
-          sudo apt install -y firefox-esr
+
+          # Install Firefox manually
+          wget https://ftp.mozilla.org/pub/firefox/releases/123.0/linux-x86_64/en-US/firefox-123.0.tar.bz2
+          tar xjf firefox-123.0.tar.bz2
+          sudo mv firefox /opt/firefox
+          sudo ln -sf /opt/firefox/firefox /usr/bin/firefox
 
       # 5️⃣ Run tests (use xvfb-run for Firefox headless stability)
       - name: Run tests
