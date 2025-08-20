@@ -33,16 +33,30 @@ jobs:
           pip install -r requirements.txt
           pip install selenium webdriver-manager pytest-html
 
-      - name: Install browsers
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y chromium-browser chromium-chromedriver firefox
+      # - name: Install browsers
+      #   run: |
+      #     sudo apt-get update
+      #     sudo apt-get install -y chromium-browser chromium-chromedriver firefox
 
       # - name: Install Chrome and Firefox
       #   run: |
       #     wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
       #     sudo apt install -y ./google-chrome-stable_current_amd64.deb
       #     sudo apt install -y firefox
+      - name: Install browsers
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget xvfb libgtk-3-0 libdbus-glib-1-2 libasound2
+
+          # Install Chrome
+          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo apt install -y ./google-chrome-stable_current_amd64.deb
+
+          # Install Firefox manually
+          wget https://ftp.mozilla.org/pub/firefox/releases/123.0/linux-x86_64/en-US/firefox-123.0.tar.bz2
+          tar xjf firefox-123.0.tar.bz2
+          sudo mv firefox /opt/firefox
+          sudo ln -sf /opt/firefox/firefox /usr/bin/firefox
 
       - name: Run tests
         run: |
